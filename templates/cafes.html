@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block title %}Restaurants{% endblock %}
+
+{% block content %}
+
+<div class="container">
+  <h1>{{ cafes|length }} WORK-FRIENDLY CAFE</h1>
+  <div class="row">
+    {% for cafe in cafes %}
+      <div class='col-6'>
+        <div class="row my-3">
+          <div class="col-xxl-3 d-flex justify-content-center">
+            <img src="{{cafe.img_url}}" height="144px" width="140px" alt="">
+          </div>
+          <div class="col-xxl-9">
+            <h4>{{ cafe.name }}</h4>
+            <p><img class="me-2" src="/static/img/logo.jpg" height="20px" width="20px" alt="">{{ cafe.location }}</p>
+            <a href="{{ cafe.map_url }}"><img class="me-2" src="/static/img/map.png" height="20px" width="20px" alt="">{{ cafe.map_url[:50] }}.....</a>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+  <p><a href="{{url_for('home') }}">Return to index page</a></p>
+</div>
+
+{% endblock %}
