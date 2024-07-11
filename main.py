@@ -37,12 +37,12 @@ class CafeForm(FlaskForm):
     img_url = URLField('Cafe Photo(URL)', validators=[DataRequired()])
     map_url = URLField('Cafe location on google map(URL)', validators=[DataRequired()])
     location = StringField('Location', validators=[DataRequired()])
-    socket = StringField('Has Socket(True/False)', validators=[DataRequired()])
-    wifi = StringField('Wifi Rating(True/False)', validators=[DataRequired()])
-    toilet = StringField('Has Toilet(True/False)', validators=[DataRequired()])
-    call_take = StringField('Can Call Take(True/False)', validators=[DataRequired()])
     seats = StringField('Seats', validators=[DataRequired()])
     coffee_price = StringField('Coffee Price', validators=[DataRequired()])
+    socket = BooleanField('Has Socket')
+    wifi = BooleanField('Has Wifi')
+    toilet = BooleanField('Has Toilet')
+    call_take = BooleanField('Can Call Take')
     submit = SubmitField('Submit')
 
 class Cafe(db.Model):
@@ -87,16 +87,16 @@ def add_cafe():
             map_url = form.data['map_url'],
             img_url = form.data['img_url'],
             location = form.data['location'],
-            has_sockets = bool(form.data['socket']),
-            has_toilet = bool(form.data['toilet']),
-            has_wifi = bool(form.data['wifi']),
-            can_take_calls = bool(form.data['call_take']),
+            has_sockets = form.data['socket'],
+            has_toilet =form.data['toilet'],
+            has_wifi = form.data['wifi'],
+            can_take_calls = form.data['call_take'],
             seats = form.data['seats'],
             coffee_price = form.data['coffee_price'],
         )
         db.session.add(cafe)
         db.session.commit()
-        return redirect('/add')
+        return redirect('/cafes')
     return render_template('add.html', form=form)
 
 
@@ -107,14 +107,3 @@ def cafes():
 
 if __name__ == '__main__':
     app.run(debug=True)
-
-# <div class="row my-3">
-#     <div class="col-xxl-3 d-flex justify-content-center">
-#       <img src="{{cafe.img_url}}" height="150px" width="250px" alt="">
-#     </div>
-#     <div class="col-xxl-9">
-#       <h4>{{ cafe.name }}</h4>
-#       <p><img class="me-2" src="/static/img/logo.jpg" height="20px" width="20px" alt="">{{ cafe.location }}</p>
-#       <a href="{{ cafe.map_url }}"><img class="me-2" src="/static/img/map.png" height="20px" width="20px" alt="">{{ cafe.map_url[:50] }}.....</a>
-#     </div>
-#   </div>
